@@ -87,14 +87,22 @@ export default function App() {
   const [selectedAlertId, setSelectedAlertId] = React.useState();
   const [selectedAlert, setSelectedAlert] = React.useState();
   const onClickAlert = (id) => {
-    const tempAlert = data.find((item) => item.id === id);
+    const tempAlert = showData.find((item) => item.id === id);
     setSelectedAlertId(id);
     setSelectedAlert(tempAlert);
     setReason(tempAlert.reason ? tempAlert.reason : '');
     setAction(tempAlert.action ? tempAlert.action : '');
     setComment(tempAlert.comment ? tempAlert.comment : '');
 
-    if (selectedAlert.is_new) {
+    if (tempAlert.is_new) {
+      const newShowData = showData.map(item => {
+        if (item.id === id) {
+          return { ...item, is_new: false }
+        }
+        return item;
+      })
+      setShowData(newShowData);
+
       const newData = data.map(item => {
         if (item.id === id) {
           return { ...item, is_new: false }
@@ -117,6 +125,14 @@ export default function App() {
 
   // for updating alert
   const onClickUpdate = () => {
+    const newShowData = showData.map(item => {
+      if (item.id === selectedAlertId) {
+        return { ...item, reason: reason, action: action, comment: comment }
+      }
+      return item;
+    })
+    setShowData(newShowData);
+
     const newData = data.map(item => {
       if (item.id === selectedAlertId) {
         return { ...item, reason: reason, action: action, comment: comment }
@@ -188,7 +204,9 @@ export default function App() {
             {showData.map((item, idx) => {
               return (
                 <div className='flex pb-2' key={idx}>
-                  <AlertCard data={item} onClick={onClickAlert} isSelected={item.id === selectedAlertId}></AlertCard>
+                  <AlertCard data={item}
+                    onClick={onClickAlert}
+                    isSelected={item.id === selectedAlertId}></AlertCard>
                 </div>
               )
             })}

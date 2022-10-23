@@ -14,13 +14,12 @@ app.use(bodyParser.json());
 mongoose.connect(process.env.MONGODB_URL,
     { dbName: process.env.DB_NAME });
 
-app.use((req, res, next) => {
-    console.log('Time: ', Date.now());
-    next();
-});
-
 app.use('/public', express.static('public'));
 app.use('/public', serveIndex('public'));
+
+app.get('/', async (req, res) => {
+    res.send("Hello world");
+});
 
 app.get('/alerts', async (req, res) => {
     const alerts = await Alert.find({});
@@ -40,4 +39,8 @@ app.post('/alert/:id/update', async (req, res) => {
     res.send({ message: 'Updated Successfully!' });
 })
 
-app.listen(5000, () => console.log('Example app is listening on port 5000.'));
+const PORT = process.env.PORT || 5000;
+app.listen(
+    PORT,
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+);

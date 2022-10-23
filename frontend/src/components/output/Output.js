@@ -61,6 +61,10 @@ const Output = ({ title, data }) => {
                 setWave(wavesurfer);
                 setPlaying(false);
                 setVolumeOff(false);
+                setDuration('00:00');
+                setCurrent('00:00');
+                setProgress(0);
+                setTotal(0);
             });
 
     }, [data]);
