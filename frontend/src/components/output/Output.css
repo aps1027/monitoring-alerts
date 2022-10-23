@@ -1,0 +1,11 @@
+.loading {
+    background-image: url('/src/assets/gif/loading.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+.loading wave {
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    border-bottom: none;
+}
